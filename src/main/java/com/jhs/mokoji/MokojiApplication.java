@@ -1,0 +1,13 @@
+package com.jhs.mokoji;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MokojiApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(MokojiApplication.class, args);
+	}
+
+}
