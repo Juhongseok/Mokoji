@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
+@Table(name = "GROUPS")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Group extends TimeAndPersonInfo {
