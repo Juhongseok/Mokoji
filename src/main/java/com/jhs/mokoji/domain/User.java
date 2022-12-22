@@ -2,6 +2,7 @@ package com.jhs.mokoji.domain;
 
 import com.jhs.mokoji.domain.baseentity.TimeInfo;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Persistable;
 
@@ -10,8 +11,10 @@ import javax.persistence.*;
 import static javax.persistence.EnumType.STRING;
 
 @Entity
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "USERS")
 public class User extends TimeInfo implements Persistable<String> {
 
     @Id
