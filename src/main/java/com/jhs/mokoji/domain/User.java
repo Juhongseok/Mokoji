@@ -5,8 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Persistable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
+
+import java.util.Collection;
+import java.util.List;
 
 import static javax.persistence.EnumType.STRING;
 
@@ -39,5 +44,9 @@ public class User extends TimeInfo implements Persistable<String> {
     @Override
     public boolean isNew() {
         return super.createdAt == null;
+    }
+
+    public Collection<? extends GrantedAuthority> getRoleList() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 }
