@@ -1,5 +1,6 @@
 package com.jhs.mokoji.domain;
 
+import com.jhs.mokoji.controller.request.UserSignUpRequest;
 import com.jhs.mokoji.domain.baseentity.TimeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -44,6 +45,10 @@ public class User extends TimeInfo implements Persistable<String> {
     @Override
     public boolean isNew() {
         return super.createdAt == null;
+    }
+
+    public static User of(UserSignUpRequest request) {
+        return new User(request.getUserId(), request.getPassword(), request.getName(), Role.ROLE_USER);
     }
 
     public Collection<? extends GrantedAuthority> getRoleList() {
