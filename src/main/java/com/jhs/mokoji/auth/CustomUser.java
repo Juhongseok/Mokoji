@@ -1,12 +1,14 @@
 package com.jhs.mokoji.auth;
 
 import com.jhs.mokoji.domain.User;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@Getter
 @RequiredArgsConstructor
 public class CustomUser implements UserDetails {
     

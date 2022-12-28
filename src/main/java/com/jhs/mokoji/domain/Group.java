@@ -1,7 +1,8 @@
 package com.jhs.mokoji.domain;
 
+import com.jhs.mokoji.controller.request.GroupCreateRequest;
 import com.jhs.mokoji.domain.baseentity.TimeAndPersonInfo;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -14,7 +15,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "GROUPS")
 @NoArgsConstructor
-@AllArgsConstructor
 public class Group extends TimeAndPersonInfo {
 
     @Id @GeneratedValue(strategy = IDENTITY)
@@ -25,4 +25,23 @@ public class Group extends TimeAndPersonInfo {
     private String area;
     private int numberOfParticipation;
     private String interests;
+
+    @Builder
+    public Group(String name, String explanation, String area, int numberOfParticipation, String interests) {
+        this.name = name;
+        this.explanation = explanation;
+        this.area = area;
+        this.numberOfParticipation = numberOfParticipation;
+        this.interests = interests;
+    }
+
+    public static Group of(GroupCreateRequest request) {
+        return Group.builder()
+                .name(request.getName())
+                .explanation(request.getExplanation())
+                .area(request.getArea())
+                .numberOfParticipation(request.getNumberOfParticipation())
+                .interests(request.getInterests())
+                .build();
+    }
 }
