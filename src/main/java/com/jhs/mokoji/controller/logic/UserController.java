@@ -1,4 +1,4 @@
-package com.jhs.mokoji.controller;
+package com.jhs.mokoji.controller.logic;
 
 import com.jhs.mokoji.controller.request.UserSignUpRequest;
 import com.jhs.mokoji.service.UserService;

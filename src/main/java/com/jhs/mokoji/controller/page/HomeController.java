@@ -1,4 +1,4 @@
-package com.jhs.mokoji.controller;
+package com.jhs.mokoji.controller.page;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
