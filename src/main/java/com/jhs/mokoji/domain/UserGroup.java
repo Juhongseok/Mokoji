@@ -3,27 +3,34 @@ package com.jhs.mokoji.domain;
 import com.jhs.mokoji.domain.compositeid.UserGroupId;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.LAZY;
+import static com.jhs.mokoji.domain.GroupRole.ROLE_UN_APPROVED;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserGroup {
+public class UserGroup implements Persistable<UserGroupId> {
+
     @EmbeddedId
     private UserGroupId id;
 
-    @MapsId("userId")
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "USER_ID")
-    private User user;
+    @Enumerated(EnumType.STRING)
+    private GroupRole groupRole;
 
-    @MapsId("groupId")
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "GROUP_ID")
-    private Group group;
+    public static UserGroup newMember(UserGroupId id) {
+        return new UserGroup(id, ROLE_UN_APPROVED);
+    }
 
-    private String groupRole;
+    @Override
+    public UserGroupId getId() {
+        return this.id;
+    }
+
+    @Override
+    public boolean isNew() {
+        return groupRole.isNewMember();
+    }
 }
