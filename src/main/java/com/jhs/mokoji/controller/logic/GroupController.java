@@ -20,15 +20,21 @@ public class GroupController {
     private final UserGroupService userGroupService;
 
     @PostMapping("/create")
-    public String createGroup(GroupCreateRequest request){
+    public String createGroup(GroupCreateRequest request) {
         groupService.add(request);
         return "redirect:/";
     }
 
-    @PostMapping("/sign/{groupId}")
-    public String signGroup(Authentication authentication, @PathVariable Long groupId){
+    @PostMapping("/{groupId}/sign")
+    public String signGroup(Authentication authentication, @PathVariable Long groupId) {
         CustomUser user = (CustomUser) authentication.getPrincipal();
         userGroupService.registerUser(user, groupId);
+        return "redirect:/";
+    }
+
+    @PostMapping("/{groupId}/approve")
+    public String approveMember(String userId, @PathVariable Long groupId) {
+        userGroupService.approveUser(userId, groupId);
         return "redirect:/";
     }
 }
