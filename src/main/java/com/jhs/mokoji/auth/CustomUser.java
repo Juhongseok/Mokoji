@@ -48,4 +48,8 @@ public class CustomUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public String getId() {
+        return this.user.getId();
+    }
 }

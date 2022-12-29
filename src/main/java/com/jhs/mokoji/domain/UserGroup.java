@@ -33,4 +33,8 @@ public class UserGroup implements Persistable<UserGroupId> {
     public boolean isNew() {
         return groupRole.isNewMember();
     }
+
+    public void toAssociate() {
+        this.groupRole = GroupRole.ROLE_ASSOCIATE;
+    }
 }
