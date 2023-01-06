@@ -4,12 +4,11 @@ import com.jhs.mokoji.domain.baseentity.TimeAndPersonInfo;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import java.time.LocalDate;
 
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -21,4 +20,8 @@ public class Notice extends TimeAndPersonInfo {
     private String title;
     private LocalDate meetingTime;
     private String location;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "GROUP_ID")
+    private Group group;
 }
