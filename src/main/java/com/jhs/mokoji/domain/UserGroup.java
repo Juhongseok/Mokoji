@@ -50,4 +50,8 @@ public class UserGroup implements Persistable<UserGroupId> {
     public void toAssociate() {
         this.groupRole = GroupRole.ROLE_ASSOCIATE;
     }
+
+    public void toRegular() {
+        this.groupRole = GroupRole.ROLE_REGULAR;
+    }
 }

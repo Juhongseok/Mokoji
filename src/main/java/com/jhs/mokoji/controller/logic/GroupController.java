@@ -2,14 +2,14 @@ package com.jhs.mokoji.controller.logic;
 
 import com.jhs.mokoji.auth.CustomUser;
 import com.jhs.mokoji.controller.request.GroupCreateRequest;
+import com.jhs.mokoji.controller.response.GroupMembers;
 import com.jhs.mokoji.service.GroupService;
 import com.jhs.mokoji.service.UserGroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/group")
@@ -32,9 +32,29 @@ public class GroupController {
         return "redirect:/";
     }
 
-    @PostMapping("/{groupId}/approve")
-    public String approveMember(String userId, @PathVariable Long groupId) {
+    @PostMapping("/{groupId}/approval/{userId}")
+    public String approveMember(@PathVariable(name = "userId") String userId, @PathVariable(name = "groupId") Long groupId) {
         userGroupService.approveUser(userId, groupId);
+        return "redirect:/";
+    }
+
+    @ResponseBody
+    @GetMapping("/{groupId}/members")
+    public GroupMembers getMembers(@PathVariable Long groupId, Model model) {
+        GroupMembers groupMembers = new GroupMembers(groupService.getMembers(groupId));
+        model.addAttribute("members", groupMembers);
+        return groupMembers;
+    }
+    
+    @PostMapping("/{groupId}/exile/{userId}")
+    public String expelMember (@PathVariable(name = "userId") String userId, @PathVariable(name = "groupId") Long groupId) {
+        userGroupService.deleteUser(userId, groupId);
+        return "redirect:/";
+    }
+
+    @PostMapping("/{groupId}/advancement/{userId}")
+    public String advanceMember (@PathVariable(name = "userId") String userId, @PathVariable(name = "groupId") Long groupId) {
+        userGroupService.advanceUser(userId, groupId);
         return "redirect:/";
     }
 }
