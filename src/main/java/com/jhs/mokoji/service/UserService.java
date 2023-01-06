@@ -19,7 +19,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return new CustomUser(
-                userRepository.findUserById(username)
+                userRepository.findById(username)
                     .orElseThrow(() -> new UsernameNotFoundException("Wrong userId"))
         );
     }
