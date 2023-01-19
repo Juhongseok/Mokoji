@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -26,5 +27,13 @@ public class Attendance {
     @JoinColumn(name = "NOTICE_ID")
     private Notice notice;
 
-    private String attendance;
+    @Enumerated(STRING)
+    private VoteAttendance attendance;
+
+    public Attendance(User user, Notice notice, String attention) {
+        this.id = new AttendanceId(user.getId(), notice.getId());
+        this.user = user;
+        this.notice = notice;
+        this.attendance = VoteAttendance.of(attention);
+    }
 }
