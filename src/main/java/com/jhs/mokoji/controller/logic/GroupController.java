@@ -20,8 +20,9 @@ public class GroupController {
     private final UserGroupService userGroupService;
 
     @PostMapping("/create")
-    public String createGroup(GroupCreateRequest request) {
-        groupService.add(request);
+    public String createGroup(GroupCreateRequest request, Authentication authentication) {
+        CustomUser user = (CustomUser) authentication.getPrincipal();
+        groupService.add(request, user);
         return "redirect:/";
     }
 
