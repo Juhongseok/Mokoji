@@ -3,6 +3,7 @@ package com.jhs.mokoji.domain;
 import com.jhs.mokoji.controller.request.GroupCreateRequest;
 import com.jhs.mokoji.domain.baseentity.TimeAndPersonInfo;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.Table;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
+@Getter
 @Table(name = "GROUPS")
 @NoArgsConstructor
 public class Group extends TimeAndPersonInfo {
