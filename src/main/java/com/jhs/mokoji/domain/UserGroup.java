@@ -1,5 +1,6 @@
 package com.jhs.mokoji.domain;
 
+import com.jhs.mokoji.auth.CustomUser;
 import com.jhs.mokoji.domain.compositeid.UserGroupId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 
+import static com.jhs.mokoji.domain.GroupRole.ROLE_MANAGER;
 import static com.jhs.mokoji.domain.GroupRole.ROLE_UN_APPROVED;
 import static javax.persistence.FetchType.LAZY;
 
@@ -32,6 +34,14 @@ public class UserGroup implements Persistable<UserGroupId> {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "GROUP_ID")
     private Group group;
+
+    public static UserGroup manager(CustomUser user, Group group) {
+        return new UserGroup(
+                new UserGroupId(user.getId(), group.getId()),
+                ROLE_MANAGER,
+                user.getUser(), group
+        );
+    }
 
     public static UserGroup newMember(UserGroupId id, User user, Group group) {
         return new UserGroup(id, ROLE_UN_APPROVED, user, group);
