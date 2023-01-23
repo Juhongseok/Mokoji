@@ -1,10 +1,11 @@
 package com.jhs.mokoji.controller.request;
 
+import com.jhs.mokoji.domain.Role;
+import com.jhs.mokoji.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Setter @Getter
 @AllArgsConstructor
@@ -14,7 +15,7 @@ public class UserSignUpRequest {
     private String password;
     private String name;
 
-    public void encryptionPassword(PasswordEncoder passwordEncoder) {
-        this.password = passwordEncoder.encode(this.password);
+    public User toEntity() {
+        return new User(userId, password, name, Role.ROLE_USER);
     }
 }

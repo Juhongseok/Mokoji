@@ -1,6 +1,5 @@
 package com.jhs.mokoji.domain;
 
-import com.jhs.mokoji.controller.request.UserSignUpRequest;
 import com.jhs.mokoji.domain.baseentity.TimeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Persistable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
@@ -47,11 +47,11 @@ public class User extends TimeInfo implements Persistable<String> {
         return super.createdAt == null;
     }
 
-    public static User of(UserSignUpRequest request) {
-        return new User(request.getUserId(), request.getPassword(), request.getName(), Role.ROLE_USER);
-    }
-
     public Collection<? extends GrantedAuthority> getRoleList() {
         return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    public void encryptionPassword(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
     }
 }

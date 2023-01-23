@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Main Home</title>
 </head>
 <body>
-    Home Page
+    <a th:href="@{/login}" sec:authorize="isAnonymous()">
+        LOGIN
+    </a>
+    <div class="dropdown" sec:authorize="isAuthenticated()">
+        <span th:text="${#authentication.getPrincipal().user.name}"></span>님
+    </div>
 </body>
 </html>

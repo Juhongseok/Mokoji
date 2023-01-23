@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>UserInfo</title>
+</head>
+<body>
+<div>
+    <div class="mb-3">
+        <label for="email" class="form-label">이메일</label>
+        <input type="text" class="form-control" id="email" th:field="${userInfo.userId}" readonly>
+
+        <br>
+        <label for="name" class="form-label">이름</label>
+        <input type="text" class="form-control" id="name" th:field="${userInfo.username}" readonly>
+    </div>
+</div>
+</body>
+</html>
