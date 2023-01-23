@@ -41,14 +41,18 @@ public class UserGroupService {
         userGroupRepository.deleteById(createUserGroupId(userId, groupId));
     }
 
-    private UserGroupId createUserGroupId(String userId, Long groupId) {
-        return new UserGroupId(userId, groupId);
-    }
-
     private void saveUserGroupWithId(String userId, Long groupId) {
         User user = userRepository.getReferenceById(userId);
         Group group = groupRepository.getReferenceById(groupId);
-        userGroupRepository.save(newMember(createUserGroupId(userId, groupId), user, group));
+        UserGroupId userGroupId = createUserGroupId(userId, groupId);
+        validateDuplicateGroupMember(userGroupId);
+        userGroupRepository.save(newMember(userGroupId, user, group));
+    }
+
+    private void validateDuplicateGroupMember(UserGroupId userGroupId) {
+        if (userGroupRepository.findById(userGroupId).isPresent()) {
+            throw new IllegalArgumentException("중복 회원 입니다.");
+        }
     }
 
     private void changeMemberRole(String userId, Long groupId, Consumer<? super UserGroup> action) {
@@ -57,5 +61,9 @@ public class UserGroupService {
                         action,
                         IllegalArgumentException::new
                 );
+    }
+
+    private UserGroupId createUserGroupId(String userId, Long groupId) {
+        return new UserGroupId(userId, groupId);
     }
 }

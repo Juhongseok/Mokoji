@@ -7,8 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserGroupRepository extends JpaRepository<UserGroup, UserGroupId> {
     @Query("select ug from UserGroup ug join fetch ug.group g where ug.id.groupId = :groupId")
-    List<UserGroup> findAllByIdGroupId(@Param("groupId") Long groupId);
+    Optional<List<UserGroup>> findAllByIdGroupId(@Param("groupId") Long groupId);
 }

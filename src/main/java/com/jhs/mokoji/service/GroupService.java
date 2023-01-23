@@ -32,6 +32,7 @@ public class GroupService {
     @Transactional(readOnly = true)
     public List<GroupMember> getMembers(Long groupId) {
         return userGroupRepository.findAllByIdGroupId(groupId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 모임이 없습니다."))
                 .stream()
                 .map(userGroup -> {
                     User user = userGroup.getUser();

@@ -42,8 +42,8 @@ public class Group extends TimeAndPersonInfo {
                 .name(request.getName())
                 .explanation(request.getExplanation())
                 .area(request.getArea())
-                .numberOfParticipation(request.getNumberOfParticipation())
-                .interests(request.getInterests())
+                .numberOfParticipation(request.getNumberOfParticipation() == null ? 50 : request.getNumberOfParticipation())
+                .interests(request.getInterests() == null ? "기타" : request.getInterests())
                 .build();
     }
 }
