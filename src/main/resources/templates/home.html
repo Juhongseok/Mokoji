@@ -8,8 +8,17 @@
     <a th:href="@{/login}" sec:authorize="isAnonymous()">
         LOGIN
     </a>
+    <a th:href="@{/sign}" sec:authorize="isAnonymous()">
+        SIGNUP
+    </a>
     <div class="dropdown" sec:authorize="isAuthenticated()">
         <span th:text="${#authentication.getPrincipal().user.name}"></span>님
+        <a th:href="@{/userInfo}">
+            USERINFO
+        </a>
+        <a th:href="@{/logout}">
+            LOGOUT
+        </a>
     </div>
 </body>
 </html>

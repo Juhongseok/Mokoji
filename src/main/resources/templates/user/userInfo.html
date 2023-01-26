@@ -3,17 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>UserInfo</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <div>
     <div class="mb-3">
         <label for="email" class="form-label">이메일</label>
-        <input type="text" class="form-control" id="email" th:field="${userInfo.userId}" readonly>
+        <input type="text" class="form-control" id="email" value="email">
 
         <br>
         <label for="name" class="form-label">이름</label>
-        <input type="text" class="form-control" id="name" th:field="${userInfo.username}" readonly>
+        <input type="text" class="form-control" id="name" value="name">
     </div>
 </div>
 </body>
+<script>
+    function loadUserInfo() {
+        fetch("http://localhost:8080/user")
+            .then(response => response.json())
+            .then(responseData => responseData.data)
+            .then(data => {
+                $('#email').val(data.userId)
+                $('#name').val(data.username)
+            });
+    }
+    loadUserInfo()
+</script>
 </html>
