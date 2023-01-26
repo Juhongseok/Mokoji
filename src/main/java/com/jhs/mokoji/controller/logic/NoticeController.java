@@ -2,15 +2,13 @@ package com.jhs.mokoji.controller.logic;
 
 import com.jhs.mokoji.controller.request.NoticeCreateRequest;
 import com.jhs.mokoji.controller.request.NoticeUpdateRequest;
+import com.jhs.mokoji.controller.response.common.ResponseData;
+import com.jhs.mokoji.controller.response.common.SingleResponseData;
 import com.jhs.mokoji.service.NoticeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/notice")
 @RequiredArgsConstructor
 public class NoticeController {
@@ -18,26 +16,26 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     @PostMapping("/create/group/{groupId}")
-    public String createNotice(NoticeCreateRequest request, @PathVariable Long groupId) {
+    public ResponseData createNotice(NoticeCreateRequest request, @PathVariable Long groupId) {
         noticeService.create(request, groupId);
-        return "redirect:/";
+        return SingleResponseData.of("ok");
     }
 
     @PostMapping("/{noticeId}/update")
-    public String updateNotice(NoticeUpdateRequest request, @PathVariable Long noticeId){
+    public ResponseData updateNotice(NoticeUpdateRequest request, @PathVariable Long noticeId){
         noticeService.update(noticeId, request);
-        return "redirect:/";
+        return SingleResponseData.of("ok");
     }
 
     @PostMapping("/{noticeId}/delete")
-    public String deleteNotice(@PathVariable Long noticeId){
+    public ResponseData deleteNotice(@PathVariable Long noticeId){
         noticeService.delete(noticeId);
-        return "redirect:/";
+        return SingleResponseData.of("ok");
     }
 
     @PostMapping("/{noticeId}/attend/user/{userId}")
-    public String attendMeeting(@PathVariable Long noticeId, @PathVariable String userId, @RequestParam String attention){
+    public ResponseData attendMeeting(@PathVariable Long noticeId, @PathVariable String userId, @RequestParam String attention){
         noticeService.voteMeeting(noticeId, userId, attention);
-        return "redirect:/";
+        return SingleResponseData.of("ok");
     }
 }

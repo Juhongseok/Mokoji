@@ -3,15 +3,15 @@ package com.jhs.mokoji.controller.logic;
 import com.jhs.mokoji.auth.CustomUser;
 import com.jhs.mokoji.controller.request.GroupCreateRequest;
 import com.jhs.mokoji.controller.response.GroupMembers;
+import com.jhs.mokoji.controller.response.common.ResponseData;
+import com.jhs.mokoji.controller.response.common.SingleResponseData;
 import com.jhs.mokoji.service.GroupService;
 import com.jhs.mokoji.service.UserGroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/group")
 @RequiredArgsConstructor
 public class GroupController {
@@ -20,42 +20,41 @@ public class GroupController {
     private final UserGroupService userGroupService;
 
     @PostMapping("/create")
-    public String createGroup(GroupCreateRequest request, Authentication authentication) {
+    public ResponseData createGroup(GroupCreateRequest request, Authentication authentication) {
         CustomUser user = (CustomUser) authentication.getPrincipal();
         groupService.add(request, user);
-        return "redirect:/";
+        return SingleResponseData.of("ok");
     }
 
     @PostMapping("/{groupId}/sign")
-    public String signGroup(Authentication authentication, @PathVariable Long groupId) {
+    public ResponseData signGroup(Authentication authentication, @PathVariable Long groupId) {
         CustomUser user = (CustomUser) authentication.getPrincipal();
         userGroupService.registerUser(user, groupId);
-        return "redirect:/";
+        return SingleResponseData.of("ok");
     }
 
     @PostMapping("/{groupId}/approval/{userId}")
-    public String approveMember(@PathVariable(name = "userId") String userId, @PathVariable(name = "groupId") Long groupId) {
+    public ResponseData approveMember(@PathVariable(name = "userId") String userId, @PathVariable(name = "groupId") Long groupId) {
         userGroupService.approveUser(userId, groupId);
-        return "redirect:/";
+        return SingleResponseData.of("ok");
     }
 
     @ResponseBody
     @GetMapping("/{groupId}/members")
-    public GroupMembers getMembers(@PathVariable Long groupId, Model model) {
+    public ResponseData getMembers(@PathVariable Long groupId) {
         GroupMembers groupMembers = new GroupMembers(groupService.getMembers(groupId));
-        model.addAttribute("members", groupMembers);
-        return groupMembers;
+        return SingleResponseData.of(groupMembers);
     }
     
     @PostMapping("/{groupId}/exile/{userId}")
-    public String expelMember (@PathVariable(name = "userId") String userId, @PathVariable(name = "groupId") Long groupId) {
+    public ResponseData expelMember (@PathVariable(name = "userId") String userId, @PathVariable(name = "groupId") Long groupId) {
         userGroupService.deleteUser(userId, groupId);
-        return "redirect:/";
+        return SingleResponseData.of("ok");
     }
 
     @PostMapping("/{groupId}/advancement/{userId}")
-    public String advanceMember (@PathVariable(name = "userId") String userId, @PathVariable(name = "groupId") Long groupId) {
+    public ResponseData advanceMember (@PathVariable(name = "userId") String userId, @PathVariable(name = "groupId") Long groupId) {
         userGroupService.advanceUser(userId, groupId);
-        return "redirect:/";
+        return SingleResponseData.of("ok");
     }
 }
