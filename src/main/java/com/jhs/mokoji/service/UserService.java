@@ -3,8 +3,11 @@ package com.jhs.mokoji.service;
 import com.jhs.mokoji.auth.CustomUser;
 import com.jhs.mokoji.controller.request.UserSignUpRequest;
 import com.jhs.mokoji.controller.response.UserInfo;
+import com.jhs.mokoji.controller.response.error.ErrorCode;
 import com.jhs.mokoji.domain.User;
 import com.jhs.mokoji.repository.UserRepository;
+import com.jhs.mokoji.service.exception.DuplicatedEntityException;
+import com.jhs.mokoji.service.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -40,13 +43,13 @@ public class UserService implements UserDetailsService {
 
     private User findUser(String userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 " + userId + "를 가진 회원이 업습니다."));
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 
     private void validationDuplicateId(String userId) {
         Optional<User> findUser = userRepository.findById(userId);
         if (findUser.isPresent()) {
-            throw new IllegalArgumentException("중복 회원 입니다.");
+            throw new DuplicatedEntityException(ErrorCode.DUPLICATE_USER);
         }
     }
 }

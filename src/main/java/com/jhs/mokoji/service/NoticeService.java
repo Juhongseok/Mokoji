@@ -2,6 +2,7 @@ package com.jhs.mokoji.service;
 
 import com.jhs.mokoji.controller.request.NoticeCreateRequest;
 import com.jhs.mokoji.controller.request.NoticeUpdateRequest;
+import com.jhs.mokoji.controller.response.error.ErrorCode;
 import com.jhs.mokoji.domain.Attendance;
 import com.jhs.mokoji.domain.Group;
 import com.jhs.mokoji.domain.Notice;
@@ -9,6 +10,7 @@ import com.jhs.mokoji.domain.User;
 import com.jhs.mokoji.repository.GroupRepository;
 import com.jhs.mokoji.repository.NoticeRepository;
 import com.jhs.mokoji.repository.UserRepository;
+import com.jhs.mokoji.service.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +46,6 @@ public class NoticeService {
 
     private Notice findNotice(Long noticeId) {
         return noticeRepository.findById(noticeId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.NOTICE_NOT_FOUND));
     }
 }
